@@ -1,0 +1,12 @@
+services:
+  clouddrive-plex-scanner:
+    image: clouddrive-plex-scanner:latest
+    container_name: clouddrive-plex-scanner
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./config.ini:/app/config.ini
+      - ./logs:/app/logs
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
