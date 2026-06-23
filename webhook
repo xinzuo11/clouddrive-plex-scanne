@@ -1,0 +1,64 @@
+webhook：
+# global variables
+# {device_name} - The name of the device
+# {user_name} - Current user name
+# {version} - The version of the application
+
+# global parameters
+[global_params]
+base_url = "http://192.168.100.103:5001"
+enabled = true
+
+[global_params.default_headers]
+content-type = "application/json"
+user-agent = "clouddrive2/{version}"
+
+# File system watcher webhook configuration
+[file_system_watcher]
+url = "{base_url}/webhook/clouddrive"
+method = "POST"
+enabled = true
+body = '''
+{
+    "device_name": "{device_name}",
+    "user_name": "{user_name}",
+    "version": "{version}",
+    "event_category": "{event_category}",
+    "event_name": "{event_name}",
+    "event_time": "{event_time}",
+    "send_time": "{send_time}",
+    "data": [
+            {
+                "action": "{action}",
+                "is_dir": "{is_dir}",
+                "source_file": "{source_file}",
+                "destination_file": "{destination_file}"
+            }
+    ]
+}
+'''
+
+# mount point watcher configuration
+[mount_point_watcher]
+url = "{base_url}/webhook/clouddrive"
+method = "POST"
+enabled = false
+body = '''
+{
+    "device_name": "{device_name}",
+    "user_name": "{user_name}",
+    "version": "{version}",
+    "event_category": "{event_category}",
+    "event_name": "{event_name}",
+    "event_time": "{event_time}",
+    "send_time": "{send_time}",
+    "data": [
+            {
+                "action": "{action}",
+                "mount_point": "{mount_point}",
+                "status": "{status}",
+                "reason": "{reason}"
+            }
+    ]
+}
+'''
